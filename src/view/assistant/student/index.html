@@ -1,0 +1,51 @@
+<hr>
+
+<section id="aluno">
+    <div id="title">
+        <h6 class="display-6">{{nome}}</h6>
+    </div>
+
+    <div id="dados" class="mt-5">
+        <dl class="row">
+            <dt class="col-sm-3">Email:</dt>
+            <dd class="col-sm-9">{{email}}</dd>
+            <dt class="col-sm-3">N° Refeitório:</dt>
+            <dd class="col-sm-9">{{refeitorio}}</dd>
+            <dt class="col-sm-3">Quarto:</dt>
+            <dd class="col-sm-9">{{quarto}}</dd>
+            <dt class="col-sm-3">Cama:</dt>
+            <dd class="col-sm-9">{{cama}}</dd>
+            <dt class="col-sm-3">Série:</dt>
+            <dd class="col-sm-9">{{serie}}</dd>
+            <dt class="col-sm-3">Sexo:</dt>
+            <dd class="col-sm-9">{{sexo}}</dd>
+            <dt class="col-sm-3">Permissão de Pernoite:</dt>
+            <dd class="col-sm-9">{{pernoite}}</dd>
+            <dt class="col-sm-3">Cidade:</dt>
+            <dd class="col-sm-9">{{cidade}}</dd>
+            <dt class="col-sm-3">Nome Responsável:</dt>
+            <dd class="col-sm-9">{{nome_responsavel}}</dd>
+            <dt class="col-sm-3">Telefone Responsável:</dt>
+            <dd class="col-sm-9">{{telefone}}</dd>
+        </dl>
+    </div>
+
+    <div id="actions">
+        {{actions}}
+    </div>
+</section>
+
+<style>
+    @media (max-width: 500px)
+    {
+        #actions
+        {
+            display: grid;
+        }
+
+        #actions button
+        {
+            margin-bottom: 10px;
+        }
+    }
+</style>

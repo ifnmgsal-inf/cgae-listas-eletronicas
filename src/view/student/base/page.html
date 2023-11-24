@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CGAE | {{title}}</title>
+        <link rel="stylesheet" href="{{URL}}/src/css/bootstrap/bootstrap.css">
+        <link rel="stylesheet" href="{{URL}}/src/css/bootstrap/bootstrap.min.css">
+    </head>
+    
+    <body class="bg-dark text-light">
+        <script src="{{URL}}/src/js/jquery/jquery.slim.min.js"></script>
+        <script src="{{URL}}/src/js/popper/popper.min.js"></script>
+        <script src="{{URL}}/src/js/bootstrap/bootstrap.js"></script>
+        
+        <div class="container">
+            {{header}}
+
+            {{content}}
+
+            {{footer}}
+        </div>
+    </body>
+
+    <style>
+        input::-webkit-input-placeholder 
+        {
+            color: gray !important;
+        }
+
+        input:-ms-input-placeholder 
+        {
+            color: gray !important;
+        }
+
+        input::placeholder 
+        {
+            color: gray !important;
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 5px;
+            border: 3px solid rgba(var(--bs-dark-rgb));
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444; 
+        }
+    </style>
+</html>

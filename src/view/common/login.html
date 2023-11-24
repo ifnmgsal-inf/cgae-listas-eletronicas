@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CGAE | {{title}}</title>
+        <link rel="stylesheet" href="{{URL}}/src/css/bootstrap/bootstrap.css">
+        <link rel="stylesheet" href="{{URL}}/src/css/bootstrap/bootstrap.min.css">
+    </head>
+    
+    <body class="bg-dark text-light">
+        <script src="{{URL}}/src/js/jquery/jquery.slim.min.js"></script>
+        <script src="{{URL}}/src/js/popper/popper.min.js"></script>
+        <script src="{{URL}}/src/js/bootstrap/bootstrap.js"></script>
+        
+        <div class="container">
+            <header>
+                <div class="mt-2">
+                    <h1 class="display-5">CGAE</h1>
+                    <h1 class="h5">Listas Eletrônicas</h1>
+                </div>
+            </header>
+
+            <hr>
+
+            <section class="my-5" style="display: flex; justify-content: center;">
+                <form method="post" action="" class="border border-light rounded">
+                    <div class="mb-5" style="text-align: center;">
+                        <h1 class="display-4">CGAE</h1>
+                        <h4>Listas Eletrônicas</h4>
+                    </div>
+
+                    {{status}}
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control bg-dark text-light mb-3" id="email" aria-describedby="emailHelp" placeholder="Email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" name="senha" class="form-control bg-dark text-light mb-3" id="senha" placeholder="Senha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" name="check" class="form-check-input bg-dark" id="conected">
+                        <label class="form-check-label" for="conected">Permanecer Conectado</label>
+                    </div>
+
+                    <div id="controls" style="justify-content: right; display: flex;">
+                        <button type="submit" class="btn btn-outline-success mt-3">Entrar</button>
+                    </div>
+                </form>
+            </section>
+            <footer>
+                <hr>
+                <p class="text-center h6">&copy; IFNMG - Campus Salinas - 2023</p>
+                <p class="text-center h6">CGAE - Listas Eletrônicas</p>
+            </footer>
+        </div>
+    </body>
+
+    <style>
+        input::-webkit-input-placeholder 
+        {
+            color: gray !important;
+        }
+
+        input:-ms-input-placeholder 
+        {
+            color: gray !important;
+        }
+
+        input::placeholder 
+        {
+            color: gray !important;
+        }
+
+        header
+        {
+            display: flex;
+            user-select: none;
+        }
+
+        header a
+        {
+            text-decoration: none;
+            color: white;
+        }
+
+        footer
+        {
+            user-select: none;
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 5px;
+            border: 3px solid rgba(var(--bs-dark-rgb));
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444; 
+        }
+        
+        form {
+            width: 80%;
+            max-width: 500px;
+            padding: 5%;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                width: 90%;
+            }
+        }
+    </style>
+</html>

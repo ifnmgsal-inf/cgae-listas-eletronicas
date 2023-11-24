@@ -1,0 +1,191 @@
+<section id="signature">
+    <hr>
+
+    <div>
+        <h4 class="display-4">Assinatura</h4>
+    </div>
+
+    {{status}}
+
+    <hr>
+
+    <div id="dados">
+
+    </div>
+
+    <div id="actions">
+        <button type="button" class="btn btn-outline-danger my-1" data-toggle="modal" data-target="#encerrar">Encerrar assinatura</button>
+        <button type="button" class="btn btn-outline-primary my-1" onclick=" location.href = '{{URL}}/assinaturas/{{list}}/{{id}}/editar'; ">Editar assinatura</button>
+    </div>
+ 
+    <div class="modal fade" id="encerrar" tabindex="-1" role="dialog" aria-labelledby="encerrar-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-light">Encerrar assinatura</h5>
+                    <button type="button" class="btn btn-close bg-white" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container">
+                        <p>Deseja realmente encerrar a assinatura?<br><strong>Obs: Essa é uma ação irreversível.</strong></p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-success" data-dismiss="modal">Não</button>
+                    
+                    <form action="" method="post">
+                        <input type="hidden" name="acao" value="encerrar">
+                        <button type="submit" class="btn btn-outline-danger">Sim</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit">
+        <hr>
+
+        <h5 class="h5">Edições realizadas</h5>
+
+        <div style="overflow-x: scroll;">   
+            <br>
+            <table class="table table-dark table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Destino</th>
+                        <th>Data de saída</th>
+                        <th>Data de chegada</th>
+                        <th>Horário de saída</th>
+                        <th>Horário de chegada</th>
+                    </tr>
+                </thead>
+            
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</section>
+
+<script>
+    const data = {{dados}};
+    const edit = {{edit}};
+
+    window.addEventListener("DOMContentLoaded", (event) => {
+        configData();
+    });
+
+    function configData() {
+        let dl = document.createElement("dl");
+        let dt = [];
+        let dd = [];
+
+        var keys = Object.keys(data);
+        var values = Object.values(data);
+
+        for (let i = 0; i < keys.length; i++)
+        {
+            if (keys.indexOf("_")) keys[i] = keys[i].split("_").join(" ");
+        }
+        
+        for (let i = 0; i < keys.length; i++)
+        {
+            if (keys[i] == "ativa" || keys[i] == "renderEdit") continue;
+
+            let key = document.createElement("dt");
+            key.innerHTML = keys[i];
+            key.setAttribute("class", "col-sm-3");
+            dt.push(key);
+            
+            let value = document.createElement("dd");
+            value.innerHTML = values[i];
+            value.setAttribute("class", "col-sm-9");
+            dd.push(value);
+        }
+        
+        for (let i = 0; i < dt.length; i++)
+        {
+            dl.appendChild(dt[i]);
+            dl.appendChild(dd[i]);
+        }
+
+        dl.setAttribute("class", "row");
+        document.getElementById("dados").appendChild(dl);
+
+        configActions();
+        configEdit();
+    }
+
+    function configActions()
+    {
+        if (!data.ativa) document.getElementById("actions").style.display = "none";
+    }
+
+    function configEdit()
+    {
+        if (edit.length == 0 || !data.renderEdit)
+        {
+            document.getElementById("edit").style.display = "none";
+            return;
+        }
+
+        let tr = [];
+        
+        for (let i = 0; i < edit.length; i++)
+        {
+            tr.push(document.createElement("tr"));
+            tr[i].style.cursor = "pointer";
+
+            let td = [];
+
+            for (let j = 0; j < 5; j++)
+            {
+                td.push(document.createElement("td"));
+            }
+
+            td[0].innerHTML = edit[i].Destino;
+            td[1].innerHTML = edit[i].Data_saida;
+            td[2].innerHTML = edit[i].Data_chegada;
+            td[3].innerHTML = edit[i].Hora_saida;
+            td[4].innerHTML = edit[i].Hora_chegada;
+            
+            td.forEach(item => {
+                tr[i].appendChild(item);
+            });
+            
+            tr[i].setAttribute("onclick", "tableClick(" + edit[i].id + ", '" + edit[i].type + "')");
+        }
+
+        tr.forEach(item => {
+            document.getElementById("table-body").appendChild(item);
+        });
+    }
+
+    function tableClick(id, type)
+    {
+        location.href = "{{URL}}/assinaturas/" + type + "/" + id;
+    }
+
+</script>
+
+<style>
+    table {
+        user-select: none;
+    }
+
+    @media (max-width: 500px)
+    {
+        #actions
+        {
+            display: grid;
+        }
+
+        #actions button
+        {
+            margin-bottom: 10px;
+        }
+    }
+</style>

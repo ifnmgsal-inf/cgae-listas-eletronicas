@@ -1,0 +1,27 @@
+<hr>
+
+<section>
+    <h5 class="display-5">Meu perfil</h5>
+
+    <div id="dados" class="mt-5">
+        <dl class="row">
+            <dt class="col-sm-3">Nome:</dt>
+            <dd class="col-sm-9">{{nome}}</dd>
+            <dt class="col-sm-3">Email:</dt>
+            <dd class="col-sm-9">{{email}}</dd>
+        </dl>
+    </div>
+
+    <div id="control">
+        <a href="{{URL}}/ass/perfil/editar" class="btn btn-outline-primary mt-3">Alterar dados</a>
+        <a href="{{URL}}/sair" class="btn btn-outline-danger mt-3">Sair</a>
+    </div>
+</section>
+
+<style>
+    #control
+    {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

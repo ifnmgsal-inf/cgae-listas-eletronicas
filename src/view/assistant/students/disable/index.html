@@ -1,0 +1,78 @@
+<hr>
+
+<section id="disable" class="my-5" style="display: flex; justify-content: center;">
+    <form action="" method="post" class="border border-light rounded">
+        <div class="form-group">
+            <div style="text-align: center;">
+                <h5 class="display-5">Desativar alunos</h5>
+                <hr>
+            </div>
+
+            {{status}}
+            
+            <br>
+
+            <h5>Por Quarto</h5>
+
+            <select class="form-select text-light bg-dark" name="quarto" style="max-width: 200px;">
+                <option value="null" selected>Todos</option>
+                <option value="11">1.1</option>
+                <option value="12">1.2</option>
+                <option value="13">1.3</option>
+                <option value="14">1.4</option>
+                <option value="15">1.5</option>
+                <option value="21">2.1</option>
+                <option value="22">2.2</option>
+                <option value="23">2.3</option>
+                <option value="24">2.4</option>
+                <option value="31">3.1</option>
+                <option value="32">3.2</option>
+                <option value="33">3.3</option>
+                <option value="34">3.4</option>
+            </select>
+            
+            <hr>
+            
+            <h5>Por Série</h5>
+
+            <select class="form-select text-light bg-dark" name="serie" style="max-width: 200px;">
+                <option value="null" selected>Todas</option>
+                <option value="1">1° Série</option>
+                <option value="2">2° Série</option>
+                <option value="3">3° Série</option>
+            </select>
+
+            <hr>
+
+            <h5>Por Sexo</h5>
+
+            <select class="form-select text-light bg-dark" name="sexo" style="max-width: 200px;">
+                <option value="null" selected>Todos</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+            </select>
+        </div>
+
+        <br>
+        <hr>
+
+        <div class="form-group" style="justify-content: right; display: flex;">
+            <a href="{{URL}}/ass/alunos" class="btn btn-outline-success mx-2">Cancelar</a>
+            <button type="submit" class="btn btn-outline-danger">Desativar</button>
+        </div>
+    </form>
+</section>
+
+<style>
+    form {
+        width: 80%;
+        max-width: 500px;
+        padding: 5%;
+    }
+
+    @media (max-width: 768px) {
+        form {
+            width: 90%;
+        }
+    }
+</style>

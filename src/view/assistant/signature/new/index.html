@@ -1,0 +1,217 @@
+<hr>
+
+<section id="new">
+    <div style="width:500px" class="border border-light rounded" id="content">
+        <div style="display: flex; justify-content: center; text-align: center;">
+            <h5 class="display-5">Cadastrar assinatura</h5>
+        </div>
+    
+        <hr>
+
+        <div>
+            <h5>Lista:</h5>
+
+            <input type="radio" name="type" value="vai_volta" id="vai_volta" onclick="radioClick('vai_volta')" required>
+            <label for="vai_volta">Vai e Volta</label>  
+
+            <br>
+
+            <input type="radio" name="type" value="pernoite" id="pernoite" onclick="radioClick('pernoite')" required>
+            <label for="pernoite">Pernoite</label>  
+
+            <br>
+
+            <input type="radio" name="type" value="saida" id="saida" onclick="radioClick('saida')" required>
+            <label for="saida">Saída</label>
+        </div>
+
+        <br>
+        
+        {{status}}
+
+        <hr>
+        <br>
+
+
+        <div>
+            <form action="" method="post" id="vai_volta-form" style="display: none;">
+                <div class="form-group">
+                    <label for="vai_volta-aluno">N° do refeitório do aluno</label>
+                    <input type="text" name="aluno" class="form-control bg-dark text-light mb-3" id="vai_volta-aluno" pattern="[0-9]{1,}" placeholder="Aluno" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="vai_volta-destino">Destino</label>
+                    <input type="text" name="destino" class="form-control bg-dark text-light mb-3" id="vai_volta-destino" placeholder="Destino" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="vai_volta-data">Data</label>
+                    <input type="date" name="data" class="form-control bg-dark text-light mb-3" id="vai_volta-data" required>
+                </div>
+                  
+                <div class="form-group">
+                    <label for="vai_volta-hora-saida">Horário de Saída</label>
+                    <input type="time" name="hora_saida" class="form-control bg-dark text-light mb-3" id="vai_volta-hora-saida" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="vai_volta-hora-chegada">Horário de Chegada</label>
+                    <input type="time" name="hora_chegada" class="form-control bg-dark text-light mb-3" id="vai_volta-hora-chegada" required>
+                </div>
+        
+                <input type="hidden" name="type" value="vai_volta">
+
+                <div id="controls" style="justify-content: right; display: grid;">
+                    <button type="submit" class="btn btn-outline-success">Assinar</button>
+                </div>
+            </form>
+            
+            <form action="" method="post" id="saida-form" style="display: none;">
+                <div class="form-group">
+                    <label for="saida-aluno">N° do refeitório do aluno</label>
+                    <input type="text" name="aluno" class="form-control bg-dark text-light mb-3" id="saida-aluno" pattern="[0-9]{1,}" placeholder="Aluno" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="saida-destino">Destino</label>
+                    <input type="text" name="destino" class="form-control bg-dark text-light mb-3" id="saida-destino" placeholder="Destino" required>
+                </div>
+          
+                <div class="form-group">
+                    <label for="saida-data_saida">Data de Saída</label>
+                    <input type="date" name="data_saida" class="form-control bg-dark text-light mb-3" id="saida-data_saida" required>
+                </div>
+          
+                <div class="form-group">
+                    <label for="saida-data_chegada">Data de Chegada</label>
+                    <input type="date" name="data_chegada" class="form-control bg-dark text-light mb-3" id="saida-data_chegada" required>
+                </div>
+                  
+                <div class="form-group">
+                    <label for="saida-hora-saida">Horário de Saída</label>
+                    <input type="time" name="hora_saida" class="form-control bg-dark text-light mb-3" id="saida-hora-saida" required>
+                </div>
+                  
+                <div class="form-group">
+                    <label for="saida-hora-chegada">Horário de Chegada</label>
+                    <input type="time" name="hora_chegada" class="form-control bg-dark text-light mb-3" id="saida-hora-chegada" required>
+                </div>
+
+                <input type="hidden" name="type" value="saida">
+          
+                <div id="controls" style="justify-content: right; display: grid;">
+                    <button type="submit" class="btn btn-outline-success">Assinar</button>
+                </div>
+            </form>
+
+            <form action="" method="post" id="pernoite-form" style="display:none;">
+                <div class="form-group">
+                    <label for="pernoite-aluno">N° do refeitório do aluno</label>
+                    <input type="text" name="aluno" class="form-control bg-dark text-light mb-3" id="pernoite-aluno" pattern="[0-9]{1,}" placeholder="Aluno" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pernoite-endereco">Endereço</label>
+                    <input type="text" name="endereco" class="form-control bg-dark text-light mb-3" id="pernoite-endereco" placeholder="Endereço" required>
+                </div>
+                    
+                <div class="form-group">
+                    <label for="pernoite-nome_responsavel">Nome do responsável</label>
+                    <input type="text" name="nome_responsavel" class="form-control bg-dark text-light mb-3" id="pernoite-nome_responsavel" placeholder="Nome do responsável" required>
+                </div>
+                    
+                <div class="form-group mb-2">
+                    <label for="pernoite-telefone">Telefone do responsável</label>
+                    <input type="tel" name="telefone" class="form-control bg-dark text-light" id="pernoite-telefone" placeholder="(99) 99999999" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="pernoite-data_saida">Data de Saída</label>
+                    <input type="date" name="data_saida" class="form-control bg-dark text-light mb-3" id="pernoite-data_saida" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="pernoite-data_chegada">Data de Chegada</label>
+                    <input type="date" name="data_chegada" class="form-control bg-dark text-light mb-3" id="pernoite-data_chegada" required>
+                </div>
+                    
+                <div class="form-group">
+                    <label for="pernoite-hora-saida">Horário de Saída</label>
+                    <input type="time" name="hora_saida" class="form-control bg-dark text-light mb-3" id="pernoite-hora-saida" required>
+                </div>
+                    
+                <div class="form-group">
+                    <label for="pernoite-hora-chegada">Horário de Chegada</label>
+                    <input type="time" name="hora_chegada" class="form-control bg-dark text-light mb-3" id="pernoite-hora-chegada" required>
+                </div>
+
+                <input type="hidden" name="type" value="pernoite">
+        
+                <div id="controls" style="justify-content: right; display: grid;">
+                    <button type="submit" class="btn btn-outline-success">Assinar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    loadForm('{{name}}');
+
+    document.getElementById('pernoite-telefone').addEventListener('blur', function (e) {
+        var x = e.target.value.replace(/\D/g, '').match(/(\d{2})(\d{4})(\d{4,})/);
+        e.target.value = '(' + x[1] + ') ' + x[2] + x[3];
+    });
+
+    function loadForm(name)
+    {
+        if (name == "null")
+        {
+            return;
+        }
+
+        document.getElementById(name).checked = true;
+        document.getElementById(name + "-form").style.display = "block";
+    }
+
+    function radioClick(name)
+    {
+        document.getElementById("vai_volta-form").style.display = "none";
+        document.getElementById("saida-form").style.display = "none";
+        document.getElementById("pernoite-form").style.display = "none";
+
+        document.getElementById(name + "-form").style.display = "block";
+    }
+</script>
+
+<style>
+    #new
+    {
+        display: flex;
+        justify-content: center;
+    }
+
+    #content
+    {
+        width: 80%;
+        padding: 30px 50px;
+    }
+
+    @media (max-width: 991px)
+    {
+        #content
+        {
+            width: 90%;
+        }
+    }
+
+    @media (max-width: 768px)
+    {
+        #content
+        {
+            width: 100%;
+            padding: 20px;
+        }
+    }
+</style>

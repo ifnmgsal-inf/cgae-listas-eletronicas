@@ -1,0 +1,49 @@
+<hr>
+
+<section>
+    <h5 class="display-5">Meu perfil</h5>
+
+    <div id="dados" class="mt-5">
+        <dl class="row">
+            <dt class="col-sm-3">Nome:</dt>
+            <dd class="col-sm-9">{{nome}}</dd>
+            <dt class="col-sm-3">Email:</dt>
+            <dd class="col-sm-9">{{email}}</dd>
+            <dt class="col-sm-3">Quarto:</dt>
+            <dd class="col-sm-9">{{quarto}}</dd>
+            <dt class="col-sm-3">Cama:</dt>
+            <dd class="col-sm-9">{{cama}}</dd>
+            <dt class="col-sm-3">Série:</dt>
+            <dd class="col-sm-9">{{serie}}</dd>
+            <dt class="col-sm-3">N° Refeitório:</dt>
+            <dd class="col-sm-9">{{numero}}</dd>
+            <dt class="col-sm-3">Possui permissão de pernoite:</dt>
+            <dd class="col-sm-9">{{pernoite}}</dd>
+        </dl>
+    </div>
+
+    <div id="controls">
+        <a href="{{URL}}/sair" class="btn btn-outline-danger mt-3">Sair</a>
+    </div>
+</section>
+
+<style>
+    #controls
+    {
+        display: flex;
+        justify-content: right;
+    }
+
+    @media (max-width: 768px)
+    {
+        .btn-group
+        {
+            margin-top: 1rem;
+        }
+
+        #controls
+        {
+            justify-content: left;
+        }
+    }
+</style>

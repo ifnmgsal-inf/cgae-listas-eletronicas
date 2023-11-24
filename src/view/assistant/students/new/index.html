@@ -1,0 +1,224 @@
+<hr>
+
+<section id="update" class="my-5" style="display: flex; justify-content: center;">
+    <form action="" method="post" class="border border-light rounded">
+        <div class="mb-5" style="text-align: center;">
+            <h5 class="display-5">Cadastrar aluno</h5>
+        </div>
+
+        {{status}}
+
+        <div class="form-group mb-4">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control bg-dark text-light" name="nome" id="nome" required placeholder="Nome">
+        </div>
+        
+        <div class="form-group mb-4">
+            <label for="email">Email</label>
+            <input type="text" class="form-control bg-dark text-light" name="email" id="email" required placeholder="Email">
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="nome_responsavel">Nome do responsável</label>
+            <input type="text" class="form-control bg-dark text-light" name="nome_responsavel" id="nome_responsavel" required placeholder="Nome do responsável">
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="telefone">Telefone do responsável</label>
+            <input type="tel" name="telefone" class="form-control bg-dark text-light" id="telefone" placeholder="(99) 99999999" required>
+        </div>
+        
+        <div class="form-group mb-4">
+            <label for="cidade">Cidade Natal</label>
+            <input type="text" class="form-control bg-dark text-light" name="cidade" id="cidade" required placeholder="Cidade">
+        </div>
+        
+        <div class="form-group mb-4">
+            <label for="refeitorio">N° Refeitório</label>
+            <input type="number" class="form-control bg-dark text-light" name="refeitorio" id="refeitorio" style="max-width: 200px;" pattern="[0-9]{1,}" required placeholder="N° do refeitório">
+        </div>
+        
+        <div class="form-group mb-4">
+            <label for="serie">Série</label>
+            <select class="form-select text-light bg-dark" name="serie" id="serie" style="max-width: 200px;">
+                <option value="1">1° ano</option>
+                <option value="2">2° ano</option>
+                <option value="3">3° ano</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="itens">Sexo</label>
+            <div id="itens">
+                <input type="radio" class="bg-dark text-light" name="sexo" id="sexo-masc" value="masculino" checked onchange="setQuartoSelect('masculino'); setCamaSelect()">
+                <label for="sexo-masc" class="form-check-label">Masculino</label>
+                <br>
+                <input type="radio" class="bg-dark text-light" name="sexo" id="sexo-fem" value="feminino" onchange="setQuartoSelect('feminino'); setCamaSelect()">
+                <label for="sexo-fem" class="form-check-label">Feminino</label>
+            </div>
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="quarto">Quarto</label>
+            <select class="form-select text-light bg-dark" name="quarto" id="quarto" style="max-width: 200px;" onchange="setCamaSelect()">
+                <option value="11" selected>1.1</option>
+                <option value="12">1.2</option>
+                <option value="13">1.3</option>
+                <option value="14">1.4</option>
+                <option value="15" disabled>1.5</option>
+                <option value="21">2.1</option>
+                <option value="22">2.2</option>
+                <option value="23">2.3</option>
+                <option value="24">2.4</option>
+                <option value="31">3.1</option>
+                <option value="32">3.2</option>
+                <option value="33">3.3</option>
+                <option value="34">3.4</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="cama">Cama</label>
+            <select class="form-select text-light bg-dark" name="cama" id="cama" style="max-width: 200px;">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11" disabled>11</option>
+                <option value="12" disabled>12</option>
+            </select>
+        </div>
+        
+        <div class="form-group mb-4">
+            <input type="checkbox" class="form-check-input bg-dark text-light" id="pernoite" name="pernoite">
+            <label for="pernoite" class="form-check-label">Permissão de Pernoite</label>
+        </div>
+
+        <hr>
+        
+        <div class="form-group" style="float: right;">
+            <a href="{{URL}}/ass/alunos" class="btn btn-outline-danger mx-2">Cancelar</a>
+            <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+        </div>
+    </form>
+</section>
+
+<script>
+    document.getElementById('telefone').addEventListener('blur', function (e) {
+        var x = e.target.value.replace(/\D/g, '').match(/(\d{2})(\d{4})(\d{4,})/);
+        e.target.value = '(' + x[1] + ') ' + x[2] + x[3];
+    });
+
+    function setQuartoSelect(sexo)
+    {
+        let select = document.getElementById("quarto");
+
+        switch (sexo)
+        {
+            case "masculino":
+                for (let i = 0; i < select.options.length; i++)
+                {
+                    select.options[i].disabled = i == 4;
+                }
+                
+                if (select.options.selectedIndex == 4) select.options.selectedIndex = 3;
+
+                break;
+
+            case "feminino":
+                for (let i = 0; i < select.options.length; i++)
+                {
+                    select.options[i].disabled = i > 4;
+                }
+
+                if (select.options.selectedIndex > 4) select.options.selectedIndex = 4;
+
+                break;
+        }
+    }
+
+    function setCamaSelect()
+    {
+        let ativo = document.getElementById("quarto").options.selectedIndex;
+        let select = document.getElementById("cama");
+        let sexo;
+
+        sexo = document.getElementById("sexo-masc").checked ? "m" : "f";
+
+        switch (ativo)
+        {
+            case 1:
+                if (sexo == "m") 
+                {
+                    for (let i = 0; i < select.options.length; i++)
+                    {
+                        select.options[i].disabled = i > 9;
+                    }
+
+                    if (select.options.selectedIndex > 9) select.options.selectedIndex = 9;
+
+                    break;
+                }
+
+                for (let i = 0; i < select.options.length; i++)
+                {
+                    select.options[i].disabled = false;
+                }
+                
+                break;
+
+            case 2:
+                if (sexo == "m") 
+                {
+                    for (let i = 0; i < select.options.length; i++)
+                    {
+                        select.options[i].disabled = i > 9;
+                    }
+
+                    if (select.options.selectedIndex > 9) select.options.selectedIndex = 9;
+
+                    break;
+                }
+
+                for (let i = 0; i < select.options.length; i++)
+                {
+                    select.options[i].disabled = i > 7;
+                }
+
+                if (select.options.selectedIndex > 7) select.options.selectedIndex = 7;
+
+                break;
+
+            default:
+                for (let i = 0; i < select.options.length; i++)
+                {
+                    select.options[i].disabled = i > 9;
+                }
+
+                if (select.options.selectedIndex > 9) select.options.selectedIndex = 9;
+
+                break;
+        }
+    }
+
+</script>
+
+<style>
+    form {
+        width: 80%;
+        max-width: 500px;
+        padding: 5%;
+    }
+
+    @media (max-width: 768px) {
+        form {
+            width: 90%;
+        }
+    }
+</style>

@@ -1,0 +1,57 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between" style="user-select: none;">
+        <a class="navbar-brand" href="{{URL}}/">
+            <h1 class="display-5">CGAE</h1>
+            <h1 class="h5">Listas Eletrônicas</h1>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="flex-grow: 0;">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {{active-home}}" href="{{URL}}/">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {{active-listas}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Listas
+                    </a>
+                    
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{URL}}/listas/saida">Saída</a>
+                        <a class="dropdown-item" href="{{URL}}/listas/vai_volta">Vai e Volta</a>
+                        <a class="dropdown-item" href="{{URL}}/listas/pernoite">Pernoite</a>
+                    </div>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {{active-assinaturas}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Assinaturas
+                    </a>
+                    
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{URL}}/assinaturas/ativas">Ativas</a>
+                        <a class="dropdown-item" href="{{URL}}/assinaturas/finalizadas">Finalizadas</a>
+                    </div>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {{active-perfil}}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{user}}
+                    </a>
+                    
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{URL}}/perfil">Meu Perfil</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{URL}}/sair">Sair</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

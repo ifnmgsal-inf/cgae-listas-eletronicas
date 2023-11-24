@@ -1,0 +1,22 @@
+<script>
+    const dados = {{dados}};
+    const lista = "{{lista}}";
+
+    initializeExport();
+
+    function initializeExport() 
+    {
+        let obj = {
+            lista: lista,
+            dados: dados,
+            redirect: "{{URL}}/ass/listas/exportar?status="
+        }
+        
+        let json = JSON.stringify(obj);
+        localStorage.setItem("data", json);
+    }
+</script>
+
+<script type="text/javascript" src="{{URL}}/src/js/pdfmake/pdfmake.min.js"></script>
+<script type="text/javascript" src="{{URL}}/src/js/pdfmake/vfs_files.js"></script>
+<script type="text/javascript" src="{{URL}}/src/js/pdfmake/creator.js"></script>

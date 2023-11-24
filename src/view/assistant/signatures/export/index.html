@@ -1,0 +1,73 @@
+<section>
+    <hr>
+
+    <h5 class="display-5">Exportar dados</h5>
+
+    <br>
+
+    {{alert}}
+
+    <form method="post">
+        <div>
+            <h5>Selecionar lista</h5>
+            
+            <input type="radio" name="lista" id="vai_volta" value="vai_volta" checked>
+            <label class="form-check-label" for="vai_volta">Vai e Volta</label>
+
+            <br>
+
+            <input type="radio" name="lista" id="saida" value="saida">
+            <label class="form-check-label" for="saida">Saída</label>
+
+            <br>
+
+            <input type="radio" name="lista" id="pernoite" value="pernoite">
+            <label class="form-check-label" for="pernoite">Pernoite</label>
+        </div>
+
+        <hr style="max-width: 400px">
+
+        <div>
+            <h5>Selecionar sexo</h5>
+
+            <input type="radio" name="sexo" id="masculino" value="masculino" checked>
+            <label class="form-check-label" for="masculino">Masculino</label>
+
+            <br>
+
+            <input type="radio" name="sexo" id="feminino" value="feminino">
+            <label class="form-check-label" for="feminino">Feminino</label>
+        </div>
+
+        <hr style="max-width: 400px">
+
+        <div>
+            <h5>Selecionar período</h5>
+
+            <label class="form-check-label" for="date_initial">De:</label>
+            <input type="date" name="from" class="form-control bg-dark text-light" id="date_initial" style="max-width: 250px">
+
+            <label class="form-check-label" for="date_final">Até:</label>
+            <input type="date" name="to" class="form-control bg-dark text-light" id="date_final" style="max-width: 250px">
+        </div>
+
+        <hr style="max-width: 400px">
+
+        <div style="display: flex; justify-content: right; max-width: 400px;">
+            <button type="button" class="btn btn-outline-danger" onclick="location.href = '{{URL}}/ass/listas'">Cancelar</button>
+            <button type="submit" class="btn btn-outline-success mx-1">Exportar</button>
+        </div>
+    </form>
+</section>
+
+<script>
+    window.addEventListener("DOMContentLoaded", getActualDate);
+
+    function getActualDate()
+    {
+        let from = document.getElementById("date_initial");
+        let to = document.getElementById("date_final");
+        from.value = new Date().toISOString().split("T")[0];
+        to.value = new Date().toISOString().split("T")[0];
+    }
+</script>

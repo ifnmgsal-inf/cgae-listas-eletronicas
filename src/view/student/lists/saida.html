@@ -1,0 +1,56 @@
+<hr>
+
+<section class="my-5" style="display: flex; justify-content: center;">
+    <form method="post" action="" class="border border-light rounded">
+        <div class="mb-5" style="text-align: center;">
+            <h5 class="display-5">Assinar lista</h5>
+            <hr>
+            <h6 class="display-6">Saída</h6>
+        </div>
+
+        {{status}}
+
+        <div class="form-group">
+            <label for="destino">Destino</label>
+            <input type="text" name="destino" class="form-control bg-dark text-light mb-3" id="destino" placeholder="Destino" pattern="[A-Za-z\s]{1,}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="data_saida">Data de Saída</label>
+            <input type="date" name="data_saida" class="form-control bg-dark text-light mb-3" id="data" placeholder="Data de saída" required>
+        </div>
+
+        <div class="form-group">
+            <label for="data_chegada">Data de Chegada</label>
+            <input type="date" name="data_chegada" class="form-control bg-dark text-light mb-3" id="data" placeholder="Data de chegada" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="hora-saida">Horário de Saída</label>
+            <input type="time" name="hora_saida" class="form-control bg-dark text-light mb-3" id="hora-saida" placeholder="Hora de saída" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="hora-chegada">Horário de Chegada</label>
+            <input type="time" name="hora_chegada" class="form-control bg-dark text-light mb-3" id="hora-chegada" placeholder="Hora de chegada" required>
+        </div>
+
+        <div id="controls" style="justify-content: right; display: grid;">
+            <button type="submit" class="btn btn-outline-success">Assinar</button>
+        </div>
+    </form>
+</section>
+
+<style>
+    form {
+        width: 80%;
+        max-width: 500px;
+        padding: 5%;
+    }
+
+    @media (max-width: 768px) {
+        form {
+            width: 90%;
+        }
+    }
+</style>

@@ -1,0 +1,69 @@
+<hr>
+
+<section id="confirm-dialog">
+    <div id="title">
+        <h5 class="display-5">Desativar alunos</h5>
+    </div>
+
+    <hr>
+
+    <h6>
+        {{num-alunos}} aluno(s) foram encontrados.
+        <br>
+        Deseja realmente desativá-los?
+    </h6>
+
+    <hr>
+
+    <div id="table">
+        <table class="table table-dark table-bordered table-hover table-striped">
+            <thead>
+                <th>
+                    N° Refeitório
+                </th>
+    
+                <th>
+                    Nome
+                </th>
+    
+                <th>
+                    Sexo
+                </th>
+    
+                <th>
+                    Quarto
+                </th>
+    
+                <th>
+                    Série
+                </th>
+            </thead>
+    
+            <tbody>
+                {{lines}}
+            </tbody>
+        </table>    
+    </div>
+    
+    <hr>
+
+    <form method="post" id="actions" style="display: flex; justify-content: right;">
+        <input type="hidden" name="quarto" value="{{quarto}}">
+        <input type="hidden" name="serie" value="{{serie}}">
+        <input type="hidden" name="sexo" value="{{sexo}}">
+
+        <a href="{{URL}}/ass/alunos" class="btn btn-outline-success mx-2">Cancelar</a>
+        <button class="btn btn-outline-danger" name="confirm" value="true">Desativar</button>
+    </form>
+</section>
+
+<style>
+    #table
+    {
+        overflow-x: scroll;
+    }
+
+    table {
+        min-width: 600px;
+    }
+</style>

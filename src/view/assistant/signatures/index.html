@@ -1,0 +1,860 @@
+<section>
+    <hr>
+    <div id="assinaturas">
+        <h5 class="display-5">Assinaturas</h5>
+
+        <hr>
+
+        <div id="filters">
+            <div class="input-group" style="display: flex; justify-content: space-between;">
+                <button type="button" class="btn btn-outline-primary my-1" data-toggle="modal" data-target="#modal-filter" style="border-radius: 0.375rem;">Filtrar</button>
+
+                <div style="display: flex;">
+                    <input type="search" class="form-control rounded bg-dark text-light my-1" placeholder="Search" aria-label="Search" aria-describedby="search-addon" style="max-width: 200px;" id="search">
+                    <button type="button" class="btn btn-outline-success mx-1 my-1" onclick="applyEffects(false, null, undefined, document.getElementById('search').value)">Buscar</button>
+                </div>
+            </div>
+        
+            <div class="modal fade" id="modal-filter" tabindex="-1" role="dialog" aria-labelledby="modal-filter-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content bg-dark">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-light">Filtrar Busca</h5>
+                            <button type="button" class="btn btn-close bg-white" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+        
+                        <div class="modal-body">
+                            <div class="container">
+                                <h5>Por Lista</h5>
+
+                                <ul>
+                                    <input type="checkbox" name="list" value="vai_volta" class="form-check-input bg-dark" id="vai_volta">
+                                    <label class="form-check-label" for="vai_volta">Vai e Volta</label> 
+                                
+                                    <br>
+        
+                                    <input type="checkbox" name="list" value="pernoite" class="form-check-input bg-dark" id="pernoite">
+                                    <label class="form-check-label" for="pernoite">Pernoite</label>  
+                                
+                                    <br>
+        
+                                    <input type="checkbox" name="list" value="saida" class="form-check-input bg-dark" id="saida">
+                                    <label class="form-check-label" for="saida">Saída</label>
+                                </ul>
+                            </div>
+
+                            <hr>
+    
+                            <div class="container">
+                                <h5>Por data</h5>
+    
+                                <ul>
+                                    <label class="form-check-label" for="date_initial">De:</label> 
+                                    <input type="date" name="data_initial" class="form-control bg-dark text-light" id="date_initial" onchange="fillFinalHourInput()">
+                                
+                                    <br>
+        
+                                    <label class="form-check-label" for="date_final">Até:</label>
+                                    <input type="date" name="data_final" class="form-control bg-dark text-light" id="date_final">
+                                </ul>
+                            </div>
+
+                            <hr>
+
+                            <div class="container">
+                                <h5>Por estado</h5>
+
+                                <ul>
+                                    <input type="radio" name="estado" id="ativa">
+                                    <label class="form-check-label" for="ativa">Ativa</label>
+
+                                    <br>
+
+                                    <input type="radio" name="estado" id="inativa">
+                                    <label class="form-check-label" for="inativa">Inativa</label>
+                                </ul>
+                            </div>
+                        </div>
+        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-outline-success" onclick="clearFilters()" data-dismiss="modal">
+                                Limpar Filtros
+                            </button>
+                            <button type="button" class="btn btn-outline-primary" onclick="applyEffects(true)" data-dismiss="modal">Filtrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div id="active-filters">
+            </div>
+        </div>
+
+        <div class="list-group" id="res">
+            {{no_itens}}
+            {{not_found}}
+        </div>
+
+        <div id="actions">
+            <a href="{{URL}}/ass/listas/cadastrar" class="btn btn-outline-success my-1">Cadastrar assinatura</a>
+            <a href="{{URL}}/ass/listas/exportar" class="btn btn-outline-primary my-1">Exportar dados</a>
+        </div>
+
+        <div id="pagination">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link bg-dark text-light" id="previous-link" onclick="applyEffects(false, null, -1)">&laquo;</a>
+                    </li>
+
+                    <li class="page-item active">
+                        <a class="page-link bg-dark text-light" id="actual-link"></a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link bg-dark text-light" id="next-link" onclick="applyEffects(false, null, 1)">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<script>
+    const results = [{{itens}}];
+    const pageLimit = {{page_limit}};
+
+    const actualOrder = {
+        order: "Data de saída",
+        reverse: true
+    };
+
+    const specialSortIcon = {
+        order: "Data de saída",
+        rotate: true
+    }
+
+    let activesFilters = [];
+    let actualPage = 0;
+    let numberOfPages = undefined;
+
+    window.addEventListener("DOMContentLoaded", applyEffects);
+
+    function createTable(itens, allItens = true)
+    {
+        let res = document.getElementById("res");
+
+        if (itens.length == 0)
+        {
+            if (allItens)
+            {
+                document.getElementById("no-itens").style.display = "block";
+                document.getElementById("filters").style.display = "none";
+            }
+            
+            else
+            {
+                document.getElementById("not-found").style.display = "block";
+            }
+
+            return; 
+        }
+
+        else
+        {
+            document.getElementById("no-itens").style.display = "none";
+            document.getElementById("not-found").style.display = "none";
+            document.getElementById("filters").style.display = "block";
+        }
+        
+        let table = document.createElement("table");
+        table.setAttribute("class", "table table-dark table-bordered table-hover table-striped");
+        table.setAttribute("id", "table");
+
+        let thead = document.createElement("thead");
+        let tr = document.createElement("tr");
+
+        let th = [
+            document.createElement("th"),
+            document.createElement("th"), 
+            document.createElement("th"),
+            document.createElement("th"),
+        ];
+
+        th[0].textContent = "Lista";
+        th[1].textContent = "Aluno";
+        th[2].textContent = "Data de saída";
+        th[3].textContent = "Ativa";
+
+        let sortIcon = [];
+        
+        for (let i = 0; i < 3; i++)
+        {
+            sortIcon.push(
+                document.createElement("img")
+            );
+
+            sortIcon[i].setAttribute("src", "{{SERVER_URI}}/src/img/filter/sort-" + (th[i].textContent == specialSortIcon.order ? (specialSortIcon.rotate ? "up" : "down") : "down") + ".png");
+        
+            th[i].setAttribute("onclick", "applyEffects(false, '" + th[i].textContent + "')");
+            th[i].setAttribute("class", "sort-header");
+            th[i].appendChild(sortIcon[i]);
+        }
+
+        for (let i = 0; i < th.length; i++)
+        {
+            tr.appendChild(th[i]);
+        }
+
+        thead.appendChild(tr);
+        table.appendChild(thead);
+
+        let tbody = document.createElement("tbody");
+
+        for (let i = 0; i < itens.length; i++)
+        {
+            let tr = document.createElement("tr");
+            tr.setAttribute("onclick", "tableClick(" + itens[i].id + ", '" + itens[i].lista + "')");
+            tr.style.cursor = "pointer";
+
+            let td = [
+                document.createElement("td"),
+                document.createElement("td"),
+                document.createElement("td"),
+                document.createElement("td")
+            ];
+
+            switch (itens[i].lista)
+            {
+                case "vai_volta":
+                    td[0].textContent = "Vai e Volta";
+                    break;
+
+                case "saida":
+                    td[0].textContent = "Saída";
+                    break;
+
+                default:
+                    td[0].textContent = "Pernoite";
+                    break;
+            }
+
+            td[1].textContent = itens[i].aluno;
+            td[2].textContent = itens[i].data;
+            td[3].textContent = itens[i].ativa ? "Sim" : "Não";
+
+            td.forEach(item => {
+                tr.appendChild(item);
+            })
+            
+            tbody.appendChild(tr);
+        }
+
+        table.appendChild(tbody);
+        res.appendChild(table);
+    }
+
+    function clearTable()
+    {
+        try
+        {
+            document.getElementById("table").remove();
+        }
+        
+        catch { return }
+    }
+
+    function tableClick(id, name)
+    {
+        location.href = "{{URL}}/ass/listas/" + name + "/" + id;
+    }
+
+    function verifyFilters()
+    {
+        activesFilters = [];
+
+        if (document.getElementById("vai_volta").checked)
+        {
+            activesFilters.push("vai_volta");
+        }
+        
+        if (document.getElementById("saida").checked)
+        {
+            activesFilters.push("saida");
+        }
+        
+        if (document.getElementById("pernoite").checked)
+        {
+            activesFilters.push("pernoite");
+        }
+
+        if (document.getElementById("ativa").checked)
+        {
+            activesFilters.push("ativo");
+        }
+
+        else if (document.getElementById("inativa").checked)
+        {
+            activesFilters.push("inativo");
+        }
+
+        if (document.getElementById("date_initial").value.length > 0)
+        {
+            activesFilters.push(
+                {
+                    date: {
+                        initial: verifyDates(prepareDate(document.getElementById("date_initial").value), prepareDate(document.getElementById("date_final").value)) == 1 ? prepareDate(document.getElementById("date_final").value) : prepareDate(document.getElementById("date_initial").value),
+                        final: document.getElementById("date_final").value.length > 0 ? (verifyDates(prepareDate(document.getElementById("date_initial").value), prepareDate(document.getElementById("date_final").value)) == 1 ? prepareDate(document.getElementById("date_initial").value) : prepareDate(document.getElementById("date_final").value)) : prepareDate(document.getElementById("date_initial").value)
+                    }
+                }
+            );
+        }
+    }
+
+    function filterItens()
+    {
+        let itens = [];
+
+        if (activesFilters.length == 0) return results;
+
+        activesFilters.forEach(item => {
+            if (typeof item == "string")
+            {
+                let aux = results;
+
+                if (item == "pernoite" || item == "saida" || item == "vai_volta")
+                {
+                    aux.forEach(res => {
+                        if (res.lista == item)
+                        {
+                            itens.push(res);
+                        }
+                    });
+                }
+            }
+
+            else
+            {
+                let aux = itens.length == 0 ? results : itens;
+                itens = [];
+
+                aux.forEach(res => {
+                    if (verifyDates(item.date.initial, res.data) <= 0 && verifyDates(item.date.final, res.data) >= 0)
+                    {
+                        itens.push(res);
+                    }
+                })
+            }
+        });
+
+        activesFilters.forEach(item => {
+            if (item == "ativo" || item == "inativo")
+            {
+                let state = item == "ativo" ? true : false;
+                let aux = [];
+
+                itens.forEach(res => {
+                    if (res.ativa == state)
+                    {
+                        aux.push(res);
+                    }
+                });
+
+                itens = aux;
+            }
+        })
+
+        return itens;
+    }
+
+    function clearFilters()
+    {
+        activesFilters = [];
+        applyEffects();
+        updateFilterElements();
+    }
+
+    function updateFilterElements()
+    {
+        let aux = "";
+
+        activesFilters.forEach(item => {
+            if (typeof item == "string")
+            {
+                aux += item;
+            }
+
+            else
+            {
+                aux += "date";
+            }
+        });
+
+        document.getElementById("vai_volta").checked = aux.includes("vai_volta") ? true : false;
+        document.getElementById("saida").checked = aux.includes("saida") ? true : false;
+        document.getElementById("pernoite").checked = aux.includes("pernoite") ? true : false;
+        document.getElementById("ativa").checked = aux.includes("ativo") ? true : false;
+        document.getElementById("inativa").checked = aux.includes("inativo") ? true : false;
+        document.getElementById("date_initial").value = aux.includes("date") ? document.getElementById("date_initial").value : "";
+        document.getElementById("date_final").value = aux.includes("date") ? document.getElementById("date_final").value : "";
+    }
+
+    function applyOrder(itens, order, reverse = true)
+    {
+        let res = [];
+
+        if (actualOrder.order == order && reverse)
+        {
+            actualOrder.reverse = !actualOrder.reverse;
+            specialSortIcon.rotate = !specialSortIcon.rotate;
+        }
+
+        else if (actualOrder.order != order)
+        {
+            actualOrder.reverse = false;
+            specialSortIcon.rotate = false;
+        }
+
+        let aux = itens;
+
+        switch (order)
+        {
+            case "Lista":
+                for (let i = 0; i < itens.length; i++)
+                {
+                    let index = 0;
+                    let menorItem = aux[index];
+
+                    for (let j = 0; j < aux.length; j++)
+                    {
+                        if (menorItem.lista > aux[j].lista)
+                        {
+                            menorItem = aux[j];
+                            index = j;
+                            j = 0;
+                        }
+
+                        else if (menorItem.lista == aux[j].lista)
+                        {
+                            if (menorItem.data > aux[j].data)
+                            {
+                                menorItem = aux[j];
+                                index = j;
+                                j = 0;
+                            }
+                        }
+                    }
+
+                    let aux2 = [];
+
+                    for (let m = 0; m < aux.length; m++)
+                    {
+                        if (aux[m] != menorItem)
+                        {
+                            aux2.push(aux[m]);
+                        }
+                    }
+
+                    aux = aux2;
+
+                    res.push(menorItem);
+                }
+
+                break;
+
+            case "Aluno":
+                for (let i = 0; i < itens.length; i++)
+                {
+                    let index = 0;
+                    let menorItem = aux[index];
+
+                    for (let j = 0; j < aux.length; j++)
+                    {
+                        if (menorItem.aluno > aux[j].aluno)
+                        {
+                            menorItem = aux[j];
+                            index = j;
+                            j = 0;
+                        }
+
+                        else if (menorItem.aluno == aux[j].aluno)
+                        {
+                            if (menorItem.data > aux[j].data)
+                            {
+                                menorItem = aux[j];
+                                index = j;
+                                j = 0;
+                            }
+                        }
+                    }
+
+                    let aux2 = [];
+
+                    for (let m = 0; m < aux.length; m++)
+                    {
+                        if (aux[m] != menorItem)
+                        {
+                            aux2.push(aux[m]);
+                        }
+                    }
+
+                    aux = aux2;
+
+                    res.push(menorItem);
+                }
+
+                break;
+
+            default:
+                for (let i = 0; i < itens.length; i++)
+                {
+                    let index = 0;
+                    let menorItem = aux[index];
+
+                    for (let j = 0; j < aux.length; j++)
+                    {
+                        if (verifyDates(menorItem.data, aux[j].data) == 1)
+                        {
+                            menorItem = aux[j];
+                            index = j;
+                            j = 0;
+                        }
+                    }
+
+                    let aux2 = [];
+
+                    for (let m = 0; m < aux.length; m++)
+                    {
+                        if (aux[m] != menorItem)
+                        {
+                            aux2.push(aux[m]);
+                        }
+                    }
+
+                    aux = aux2;
+
+                    res.push(menorItem);
+                }
+
+                break;
+        }
+
+        if (actualOrder.reverse) res.reverse();
+
+        actualOrder.order = order;
+        specialSortIcon.order = order;
+
+        return res;
+    }
+
+    function applyEffects(fromFilter = false, order = null, num = undefined, search = null)
+    {
+        if (fromFilter)
+        {
+            verifyFilters();
+        }
+        
+        let itens = filterItens();
+
+        if (search != null)
+        {
+            itens = filterSearch(itens, search);
+        }
+
+        if (order != null)
+        {
+            itens = applyOrder(itens, order, actualOrder.order == order);
+        }
+
+        else if (actualOrder.order != null)
+        {
+            itens = applyOrder(itens, actualOrder.order, false);
+        }
+
+        itens = applyPagination(itens, num);
+       
+        clearTable();
+        setFilters();
+        createTable(itens, false);
+    }
+
+    function filterSearch(itens, search)
+    {
+        let aux = [];
+
+        itens.forEach(item => {
+            if (item.aluno.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+            {
+                aux.push(item);
+            }
+        });
+
+        return aux;
+    }
+
+    function fillFinalHourInput()
+    {
+        let final = document.getElementById("date_final");
+        let initial = document.getElementById("date_initial");
+
+        if (final.value.length > 0 || initial.value.length == 0)
+        {
+            return;
+        }
+
+        final.value = initial.value;
+    }
+
+    //  1 -> Se data1 > data2
+    //  0 -> Se data1 == data2
+    // -1 -> Se data1 < data2
+    function verifyDates(date1, date2)
+    {
+        let d1 = date1.split("/");
+        let d2 = date2.split("/");
+
+        for (let i = 0; i < 3; i++)
+        {
+            d1[i] = Number(d1[i]);
+            d2[i] = Number(d2[i]);
+        }
+
+        for (let i = 2; i >= 0; i--)
+        {
+            if (d1[i] > d2[i])
+            {
+                return 1;
+            }
+
+            if (d1[i] < d2[i])
+            {
+                return -1;
+            }
+        }
+
+        return 0;
+    }
+
+    function prepareDate(date)
+    {
+        let d = date.split("-");
+        return d[2] + "/" + d[1] + "/" + d[0];
+    }
+
+    function setFilters()
+    {
+        let btn = [];
+
+        activesFilters.forEach(item => {
+            switch (item)
+            {
+                case "vai_volta":
+                    btn.push(createFilterButton("vai_volta", "Vai e Volta"));
+                    break;
+                    
+                case "saida":
+                    btn.push(createFilterButton("saida", "Saída"));
+                    break;
+                    
+                case "pernoite":
+                    btn.push(createFilterButton("pernoite", "Pernoite"));
+                    break;
+
+                case "ativo":
+                    btn.push(createFilterButton("ativo", "Estado"));
+                    break;
+
+                case "inativo":
+                    btn.push(createFilterButton("inativo", "Estado"));
+                    break;
+                    
+                default:
+                    btn.push(createFilterButton("date", "Data"));
+                    break;
+            }
+        });
+
+        let div = document.getElementById("active-filters");
+        div.innerHTML = "";
+
+        if (activesFilters.length == 0)
+        {
+            div.style.display = "none";
+        }
+
+        else
+        {
+            btn.forEach(item => {
+                div.appendChild(item);
+            });
+
+            div.appendChild(document.createElement("hr"));
+            div.style.display = "block";
+        }
+    }
+
+    function createFilterButton(filter, name)
+    {
+        let btn = document.createElement("button");
+        btn.setAttribute("class", "btn text-light btn-outline-primary mx-1 my-1");
+        btn.setAttribute("type", "button");
+        btn.setAttribute("onclick", "disableFilter('" + filter + "')");
+        btn.textContent = name + " ×";
+        
+        return btn;
+    }
+
+    function disableFilter(filter)
+    {
+        let aux = [];
+
+        activesFilters.forEach(item => {
+            if (typeof item == "string")
+            {
+                if (item != filter)
+                {
+                    aux.push(item);
+                }
+            }
+
+            else
+            {
+                if (filter != "date") aux.push(item);
+            }
+        });
+        
+        activesFilters = aux;
+        applyEffects();
+        updateFilterElements();
+    }
+
+    function applyPagination(itens, num = undefined)
+    {
+        configPagination(itens.length, num);
+
+        let res = [];
+
+        if (itens.length > pageLimit)
+        {
+            for (let i = actualPage * pageLimit; i < actualPage * pageLimit + pageLimit; i++)
+            {
+                if (typeof itens[i] !== "undefined") res.push(itens[i]);
+            }
+        }
+
+        else
+        {
+            return itens;
+        }
+
+        return res;
+    }
+
+    function configPagination(length, num = undefined)
+    {
+        let previous = document.getElementById("previous-link");
+        let actual = document.getElementById("actual-link");
+        let next = document.getElementById("next-link");
+
+        actualPage = typeof num == "undefined" ? actualPage : actualPage + num;
+        numberOfPages = calcTotalPages(length, pageLimit);
+
+        document.getElementById("actual-link").innerHTML = actualPage + 1;
+
+        if (numberOfPages <= 1)
+        {
+            document.getElementById("pagination").style.display = "none";
+            actualPage = 0;
+            return;
+        }
+
+        document.getElementById("pagination").style.display = "block";
+
+        if (actualPage == 0)
+        {
+            previous.setAttribute("onclick", "");
+            previous.classList.add("disabled");
+        }
+
+        else
+        {
+            previous.setAttribute("onclick", "applyEffects(false, null, -1)");
+            previous.classList.remove("disabled");
+        }
+
+        if (actualPage >= numberOfPages - 1)
+        {
+            next.setAttribute("onclick", "");
+            next.classList.add("disabled");
+        }
+
+        else
+        {
+            next.setAttribute("onclick", "applyEffects(false, null, 1)");
+            next.classList.remove("disabled");
+        }
+    }
+
+    function calcTotalPages(itens, limit)
+    {
+        return Math.ceil(itens / limit);
+    }
+
+</script>
+
+<style>
+    .page-link {
+        cursor: pointer;
+    }
+
+    .page-link:hover {
+        background-color: rgb(58, 57, 57) !important;
+    }
+
+    .page-link.disabled {
+        border-color: rgb(71, 71, 71);
+        color: rgb(71, 71, 71);
+    }
+
+    .page-link.disabled:hover {
+        background-color: transparent !important;
+    }
+
+    #res {
+        overflow-x: scroll;
+    }
+    
+    table {
+        user-select: none;
+        min-width: 500px;
+    }
+
+    .sort-header {
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    .sort-header img {
+        float: right;
+        width: 20px;
+    }
+
+    .sort-header:hover {
+        background-color: rgb(71, 71, 71);
+    }
+    
+    @media (max-width: 500px)
+    {
+        #actions
+        {
+            display: grid;
+        }
+
+        #actions button
+        {
+            margin-bottom: 10px;
+        }
+    }
+</style>
