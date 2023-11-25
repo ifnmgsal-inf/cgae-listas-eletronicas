@@ -3,6 +3,7 @@
 namespace App\Controller\Assistant\Signatures;
 
 use App\Controller\Assistant\Page;
+use App\Controller\Common\Alert;
 use App\Model\Entity\Listas;
 use App\Model\Entity\Aluno;
 
@@ -13,15 +14,17 @@ class Signature extends Page
 {
     /**
      * Entrypoint GET da rota
+     * @param Request $request Objeto de requisição
      * @param string $list Lista da assinatura
      * @param int $id ID da assinatura a ser consultada
      * @return string View renderizada
      */
-    public static function getView($list, $id)
+    public static function getView($request, $list, $id)
     {
         parent::setActiveModule("signatures");
 
         $content = parent::render("signature/index", [
+            "status" => isset($request->getQueryParams()['status']) ? ($request->getQueryParams()['status'] == "success" ? Alert::getSuccess("Atualizada com sucesso!") : "") : "",
             "list" => $list,
             "id" => $id,
             "dados" => self::getDados($list, $id),
@@ -151,6 +154,9 @@ class Signature extends Page
                 case "destino":
                     break;
 
+                case "data":
+                    break;
+
                 case "dataSaida":
                     break;
 
@@ -173,9 +179,17 @@ class Signature extends Page
                 $values[$i] = join("/", array_reverse($values[$i]));
             }
             
-            $keys[$i] = strtolower(preg_replace(["/([A-Z]+)/", "/_([A-Z]+)([A-Z][a-z])/"], ["_$1", "_$1_$2"], lcfirst($keys[$i])));
+            if ($keys[$i] == "data")
+            {
+                $res .= "Data_saida: "."'".$values[$i]."', ";
+                $res .= "Data_chegada: "."'".$values[$i]."', ";
+            }
 
-            $res .= ($keys[$i] == "id" ? "id" : ucfirst($keys[$i])).": "."'".$values[$i]."', ";
+            else 
+            {
+                $keys[$i] = strtolower(preg_replace(["/([A-Z]+)/", "/_([A-Z]+)([A-Z][a-z])/"], ["_$1", "_$1_$2"], lcfirst($keys[$i])));
+                $res .= ($keys[$i] == "id" ? "id" : ucfirst($keys[$i])).": "."'".$values[$i]."', ";
+            }
         }
         
         return substr($res, 0, -2)."}";

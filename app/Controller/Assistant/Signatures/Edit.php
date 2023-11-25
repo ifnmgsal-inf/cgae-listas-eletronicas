@@ -85,7 +85,7 @@ class Edit extends Page
                         return self::getView($list, $id, $res);
                     }
 
-                    $ob = new VaiVolta(-1, $_SESSION['user']['usuario']['id'], null, true, $postVars['destino'], $postVars['data'], $postVars['hora_saida'], $postVars['hora_chegada']);
+                    $ob = new VaiVolta(-1, VaiVolta::getSignatureById($id)->aluno, null, true, $postVars['destino'], $postVars['data'], $postVars['hora_saida'], $postVars['hora_chegada']);
                     $ob->cadastrar();
                     VaiVolta::atualizarAssinaturas("id = ".$id, ["ativa" => false, "pai" => $ob->id]);
                     break;
@@ -98,7 +98,7 @@ class Edit extends Page
                         return self::getView($list, $id, $res);
                     }
 
-                    $ob = new Saida(-1, $_SESSION['user']['usuario']['id'], null, true, $postVars['destino'], $postVars['data_saida'], $postVars['data_chegada'], $postVars['hora_saida'], $postVars['hora_chegada']);
+                    $ob = new Saida(-1, VaiVolta::getSignatureById($id)->aluno, null, true, $postVars['destino'], $postVars['data_saida'], $postVars['data_chegada'], $postVars['hora_saida'], $postVars['hora_chegada']);
                     $ob->cadastrar();
                     Saida::atualizarAssinaturas("id = ".$id, ["ativa" => false, "pai" => $ob->id]);
                     break;
@@ -111,7 +111,7 @@ class Edit extends Page
                         return self::getView($list, $id, $res);
                     }
 
-                    $ob = new Pernoite(-1, $_SESSION['user']['usuario']['id'], null, true, $postVars['endereco'], $postVars['nome_responsavel'], $postVars['telefone'], $postVars['data_saida'], $postVars['data_chegada'], $postVars['hora_saida'], $postVars['hora_chegada']);
+                    $ob = new Pernoite(-1, VaiVolta::getSignatureById($id)->aluno, null, true, $postVars['endereco'], $postVars['nome_responsavel'], $postVars['telefone'], $postVars['data_saida'], $postVars['data_chegada'], $postVars['hora_saida'], $postVars['hora_chegada']);
                     $ob->cadastrar();
                     Pernoite::atualizarAssinaturas("id = ".$id, ["ativa" => false, "pai" => $ob->id]);
                     break;
@@ -126,6 +126,7 @@ class Edit extends Page
         
         catch (\Exception $e)
         {
+            echo $e->getMessage();
             return self::getView($list, $id);
         }
     }

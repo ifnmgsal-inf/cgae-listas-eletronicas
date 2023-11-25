@@ -122,9 +122,9 @@ $router->get("/ass/listas/{list}/{id}", [
         "update-lists"
     ],
 
-    function ($list, $id)
+    function ($request, $list, $id)
     {
-        return new Response(200, Signatures\Signature::getView($list, $id));
+        return new Response(200, Signatures\Signature::getView($request, $list, $id));
     }
 ]);
 

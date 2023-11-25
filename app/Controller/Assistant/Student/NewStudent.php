@@ -15,12 +15,12 @@ class NewStudent extends Page
      * Entrypoint GET da rota
      * @return string View renderizada
      */
-    public static function getView($message = null, $success = false)
+    public static function getView($message = null, $success = false, $warning = null)
     {
         parent::setActiveModule("students");
 
         $content = parent::render("students/new/index", [
-            "status" => self::getStatus($message, $success)
+            "status" => self::getStatus($message, $success).(is_null($warning) ? "" : Alert::getWarning("Atenção: ".$warning))
         ]);
 
         return parent::getPage("Alunos", $content);
@@ -40,18 +40,11 @@ class NewStudent extends Page
         $message = "";
         $res = self::verifyAluno($ob);
 
-        if (is_null($res))
-        {
-            $ob->cadastrar();
-            $message = "Aluno cadastrado com sucesso!";
-        }
+        $ob->cadastrar();
+        $message = "Aluno cadastrado com sucesso!";
+        $warning = $res;
         
-        else
-        {
-            $message = $res;
-        }
-        
-        return self::getView($message, is_null($res));
+        return self::getView($message, true, $warning);
     }
 
     /**

@@ -50,7 +50,15 @@ class Update extends Page
             return self::getView($id, "O email informado já está sendo utilizado por outro aluno!", false);
         }
 
-        $senha = empty($postVars['senha']) ? $ob->senha : password_hash($postVars['senha'], PASSWORD_DEFAULT);
+        if ($ob->ativo)
+        {
+            $senha = empty($postVars['senha']) ? $ob->senha : password_hash($postVars['senha'], PASSWORD_DEFAULT);
+        }
+        
+        else 
+        {
+            $senha = NULL;
+        }
 
         $ob->nome = $postVars['nome'];
         $ob->email = $postVars['email'];

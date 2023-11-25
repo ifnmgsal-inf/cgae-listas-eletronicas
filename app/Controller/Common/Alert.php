@@ -34,6 +34,19 @@ class Alert
             "mensagem" => $message
         ]);
     }
+
+    /**
+     * Retorna uma mensagem de aviso
+     * @param string $message Texto da mensagem
+     * @return string View renderizada
+     */
+    public static function getWarning($message)
+    {
+        return View::render("common/alert/status", [
+            'tipo' => "warning",
+            "mensagem" => $message
+        ]);
+    }
 }
 
 ?>

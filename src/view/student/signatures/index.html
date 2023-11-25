@@ -96,21 +96,19 @@
 
     const actualOrder = {
         order: "Data de saída",
-        reverse: false
+        reverse: true
     };
 
     const specialSortIcon = {
-        order: null,
-        rotate: false
+        order: "Data de saída",
+        rotate: true
     }
 
     let activesFilters = [];
     let actualPage = 0;
     let numberOfPages = undefined;
 
-    window.addEventListener("DOMContentLoaded", (event) => {
-        configPagination();
-    });
+    window.addEventListener("DOMContentLoaded", applyEffects);
 
     function createTable(itens, allItens = true)
     {
@@ -356,7 +354,7 @@
             specialSortIcon.rotate = !specialSortIcon.rotate;
         }
 
-        else
+        else if (actualOrder.order != order)
         {
             actualOrder.reverse = false;
             specialSortIcon.rotate = false;
@@ -481,7 +479,7 @@
         return res;
     }
 
-    function applyEffects(fromFilter = false, order = null)
+    function applyEffects(fromFilter = false, order = null, num = undefined)
     {
         if (fromFilter)
         {
@@ -492,7 +490,7 @@
         
         if (order != null)
         {
-            itens = applyOrder(itens, order);
+            itens = applyOrder(itens, order, actualOrder.order == order);
         }
 
         else if (actualOrder.order != null)
@@ -500,7 +498,7 @@
             itens = applyOrder(itens, actualOrder.order, false);
         }
 
-        itens = applyPagination(itens);
+        itens = applyPagination(itens, num);
        
         clearTable();
         setFilters();
@@ -603,7 +601,7 @@
     function createFilterButton(filter, name)
     {
         let btn = document.createElement("button");
-        btn.setAttribute("class", "btn text-light btn-outline-primary mx-1");
+        btn.setAttribute("class", "btn text-light btn-outline-primary mx-1 my-1");
         btn.setAttribute("type", "button");
         btn.setAttribute("onclick", "disableFilter('" + filter + "')");
         btn.textContent = name + " ×";
@@ -635,8 +633,10 @@
         updateFilterElements();
     }
 
-    function applyPagination(itens)
+    function applyPagination(itens, num = undefined)
     {
+        configPagination(itens.length, num);
+
         let res = [];
 
         if (itens.length > pageLimit)
@@ -655,23 +655,25 @@
         return res;
     }
 
-    function configPagination(num = undefined)
+    function configPagination(length, num = undefined)
     {
         let previous = document.getElementById("previous-link");
         let actual = document.getElementById("actual-link");
         let next = document.getElementById("next-link");
 
-        actualPage = typeof num == "undefined" ? 0 : actualPage + num;
-        numberOfPages = calcTotalPages(results.length, pageLimit);
+        actualPage = typeof num == "undefined" ? actualPage : actualPage + num;
+        numberOfPages = calcTotalPages(length, pageLimit);
 
         document.getElementById("actual-link").innerHTML = actualPage + 1;
 
         if (numberOfPages <= 1)
         {
             document.getElementById("pagination").style.display = "none";
-            applyEffects(false, "Data de saída");
+            actualPage = 0;
             return;
         }
+
+        document.getElementById("pagination").style.display = "block";
 
         if (actualPage == 0)
         {
@@ -681,7 +683,7 @@
 
         else
         {
-            previous.setAttribute("onclick", "configPagination(-1)");
+            previous.setAttribute("onclick", "applyEffects(false, null, -1)");
             previous.classList.remove("disabled");
         }
 
@@ -693,11 +695,9 @@
 
         else
         {
-            next.setAttribute("onclick", "configPagination(1)");
+            next.setAttribute("onclick", "applyEffects(false, null, 1)");
             next.classList.remove("disabled");
         }
-        
-        applyEffects(false, "Data de saída");
     }
 
     function calcTotalPages(itens, limit)
