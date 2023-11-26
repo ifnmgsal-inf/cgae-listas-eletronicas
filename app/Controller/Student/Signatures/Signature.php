@@ -87,7 +87,6 @@ class Signature extends Page
 
     /**
      * Encerra uma assinatura
-     * @param Request $request Objeto de requisição
      * @param string $list Nome da lista a qual pertence a assinatura
      * @param int $id ID da assinatura no banco
      * @return string View renderizada
@@ -201,6 +200,12 @@ class Signature extends Page
     {
         $keys = array_keys($arr);
         $values = array_values($arr);
+
+        $values = array_map(function ($item)
+        {
+            return htmlspecialchars($item);
+        }, $values);
+
         $res = "{Lista: '".$type."', ";
         $res .= "renderEdit: ".($arr['pai'] == NULL ? "true" : "false").", ";
 
@@ -215,7 +220,7 @@ class Signature extends Page
                     continue 2;
 
                 case "aluno":
-                    $values[$i] = Aluno::getAlunoById($values[$i])->nome;
+                    $values[$i] = htmlspecialchars(Aluno::getAlunoById($values[$i])->nome);
                     break;
 
                 case "nomeResponsavel":
@@ -261,6 +266,12 @@ class Signature extends Page
     {
         $keys = array_keys($arr);
         $values = array_values($arr);
+
+        $values = array_map(function ($item)
+        {
+            return htmlspecialchars($item);
+        }, $values);
+        
         $res = "{type: '".$list."', ";
 
         for ($i = 0; $i < count($keys); $i++)

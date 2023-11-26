@@ -80,6 +80,12 @@ class Signature extends Page
     {
         $keys = array_keys($arr);
         $values = array_values($arr);
+        
+        $values = array_map(function ($item)
+        {
+            return htmlspecialchars($item);
+        }, $values);
+        
         $res = "{Lista: '".$type."', ";
         $res .= "renderEdit: ".(is_null($arr['pai']) ? "true" : "false").", ";
 
@@ -94,7 +100,7 @@ class Signature extends Page
                     continue 2;
 
                 case "aluno":
-                    $values[$i] = Aluno::getAlunoById($values[$i])->nome;
+                    $values[$i] = htmlspecialchars(Aluno::getAlunoById($values[$i])->nome);
                     break;
 
                 case "nomeResponsavel":
@@ -139,6 +145,12 @@ class Signature extends Page
     {
         $keys = array_keys($arr);
         $values = array_values($arr);
+
+        $values = array_map(function ($item)
+        {
+            return htmlspecialchars($item);
+        }, $values);
+
         $res = "{type: '".$list."', ";
 
         for ($i = 0; $i < count($keys); $i++)

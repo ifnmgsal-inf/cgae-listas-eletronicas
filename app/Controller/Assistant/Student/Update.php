@@ -88,11 +88,11 @@ class Update extends Page
 
         $content = [
             "id" => $ob->id,
-            "nome" => $ob->nome,
-            "email" => $ob->email,
-            "responsavel" => $ob->nomeResponsavel,
-            "telefone" => $ob->telefoneResponsavel,
-            "cidade" => $ob->cidade,
+            "nome" => htmlspecialchars($ob->nome),
+            "email" => htmlspecialchars($ob->email),
+            "responsavel" => htmlspecialchars($ob->nomeResponsavel),
+            "telefone" => htmlspecialchars($ob->telefoneResponsavel),
+            "cidade" => htmlspecialchars($ob->cidade),
             "id_refeitorio" => $ob->idRefeitorio,
             "checked-00" => $ob->pernoite ? "checked" : ""
         ];

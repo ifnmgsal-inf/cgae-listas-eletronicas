@@ -48,7 +48,7 @@ class Page
 
         // CONFIGURA OS PARÂMETROS DE RENDERIZAÇÃO
         $itens = [
-            "user" => $_SESSION['user']['usuario']['nome']
+            "user" => htmlspecialchars($_SESSION['user']['usuario']['nome'])
         ];
 
         foreach (self::$modules as $name => $value)

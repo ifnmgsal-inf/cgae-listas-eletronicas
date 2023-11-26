@@ -64,6 +64,11 @@ class Students extends Page
             // CONVERTE OS OBJETOS EM ARRAYS
             $arr = (array) $item;
 
+            $arr = array_map(function ($item)
+            {
+                return htmlspecialchars($item);
+            }, $arr);
+
             // INICIALIZA A ESCRITA DE UM NOVO OBJETO JS 
             $aux = "{";
             

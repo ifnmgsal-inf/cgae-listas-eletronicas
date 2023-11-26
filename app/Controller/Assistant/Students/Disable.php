@@ -36,9 +36,7 @@ class Disable extends Page
     public static function setView($request)
     {
         $postVars = $request->getPostVars();
-
         $where = "ativo = true";
-
 
         foreach ($postVars as $key => $value)
         {
@@ -101,11 +99,11 @@ class Disable extends Page
         foreach ($obStudents as $item)
         {
             $lines .= parent::render("students/disable/item", [
-                "id_refeitorio" => $item->idRefeitorio,
-                "nome" => $item->nome,
-                "sexo" => ucfirst($item->sexo),
-                "quarto" => str_split($item->quarto)[0].".".str_split($item->quarto)[1],
-                "serie" => $item->serie."°"
+                "id_refeitorio" => htmlspecialchars($item->idRefeitorio),
+                "nome" => htmlspecialchars($item->nome),
+                "sexo" => htmlspecialchars(ucfirst($item->sexo)),
+                "quarto" => htmlspecialchars(str_split($item->quarto)[0].".".str_split($item->quarto)[1]),
+                "serie" => htmlspecialchars($item->serie."°")
             ]);
         }
 

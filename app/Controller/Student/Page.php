@@ -44,7 +44,7 @@ class Page
     private static function getHeader()
     {
         $variables = [
-            "user" => explode(" ", $_SESSION['user']['usuario']['nome'])[0],
+            "user" => htmlspecialchars(explode(" ", $_SESSION['user']['usuario']['nome'])[0]),
         ];
 
         foreach (self::$modules as $module => $value)

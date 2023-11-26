@@ -24,8 +24,8 @@ class Profile extends Page
 
         // RENDERIZA A VIEW
         $content = parent::render("profile/index", [
-            "nome" => $_SESSION['user']['usuario']['nome'],
-            "email" => $_SESSION['user']['usuario']['email']
+            "nome" => htmlspecialchars($_SESSION['user']['usuario']['nome']),
+            "email" => htmlspecialchars($_SESSION['user']['usuario']['email'])
         ]);
 
         return parent::getPage("Perfil", $content);
@@ -88,8 +88,8 @@ class Profile extends Page
         $ob = Assistente::getAssistenteById($_SESSION['user']['usuario']['id']);
 
         $attr['status'] = is_null($message) ? "" : ($success ? Alert::getSuccess($message) : Alert::getError($message));
-        $attr['nome'] = $ob->nome;
-        $attr['email'] = $ob->email;
+        $attr['nome'] = htmlspecialchars($ob->nome);
+        $attr['email'] = htmlspecialchars($ob->email);
 
         return $attr;
     }

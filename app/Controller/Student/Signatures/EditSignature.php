@@ -108,10 +108,10 @@ class EditSignature extends Page
         $ob = VaiVolta::getSignatureById($id) ?? throw new \Exception("not found", 404);
 
         $content = parent::render("signature/edit/vai_volta", [
-            "destino" => $ob->destino,
-            "data" => $ob->data,
-            "hora_saida" => $ob->horaSaida,
-            "hora_chegada" => $ob->horaChegada
+            "destino" => htmlspecialchars($ob->destino),
+            "data" => htmlspecialchars($ob->data),
+            "hora_saida" => htmlspecialchars($ob->horaSaida),
+            "hora_chegada" => htmlspecialchars($ob->horaChegada)
         ]);
 
         return $content;
@@ -122,11 +122,11 @@ class EditSignature extends Page
         $ob = Saida::getSignatureById($id) ?? throw new \Exception("not found", 404);
 
         $content = parent::render("signature/edit/saida", [
-            "destino" => $ob->destino,
-            "data_saida" => $ob->dataSaida,
-            "data_chegada" => $ob->dataChegada,
-            "hora_saida" => $ob->horaSaida,
-            "hora_chegada" => $ob->horaChegada
+            "destino" => htmlspecialchars($ob->destino),
+            "data_saida" => htmlspecialchars($ob->dataSaida),
+            "data_chegada" => htmlspecialchars($ob->dataChegada),
+            "hora_saida" => htmlspecialchars($ob->horaSaida),
+            "hora_chegada" => htmlspecialchars($ob->horaChegada)
         ]);
 
         return $content;
@@ -137,13 +137,13 @@ class EditSignature extends Page
         $ob = Pernoite::getSignatureById($id) ?? throw new \Exception("not found", 404);
 
         $content = parent::render("signature/edit/pernoite", [
-            "endereco" => $ob->endereco,
-            "nome_responsavel" => $ob->nomeResponsavel,
-            "telefone" => $ob->telefone,
-            "data_saida" => $ob->dataSaida,
-            "data_chegada" => $ob->dataChegada,
-            "hora_saida" => $ob->horaSaida,
-            "hora_chegada" => $ob->horaChegada
+            "endereco" => htmlspecialchars($ob->endereco),
+            "nome_responsavel" => htmlspecialchars($ob->nomeResponsavel),
+            "telefone" => htmlspecialchars($ob->telefone),
+            "data_saida" => htmlspecialchars($ob->dataSaida),
+            "data_chegada" => htmlspecialchars($ob->dataChegada),
+            "hora_saida" => htmlspecialchars($ob->horaSaida),
+            "hora_chegada" => htmlspecialchars($ob->horaChegada)
         ]);
 
         return $content;

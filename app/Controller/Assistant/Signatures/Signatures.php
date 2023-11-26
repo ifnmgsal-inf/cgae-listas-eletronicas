@@ -71,6 +71,11 @@ class Signatures extends Page
             $keys = array_keys($arr);
             $values = array_values($arr);
 
+            $values = array_map(function ($item)
+            {
+                return htmlspecialchars($item);
+            }, $values);
+
             // INICIALIZA A ESCRITA DE UM NOVO OBJETO JS 
             $aux = "{";
             
@@ -96,7 +101,7 @@ class Signatures extends Page
                 switch ($keys[$i])
                 {
                     case "aluno":
-                        $aux .= "aluno: '".Aluno::getAlunoById($valueData)->nome."', ";
+                        $aux .= "aluno: '".htmlspecialchars(Aluno::getAlunoById($valueData)->nome)."', ";
                         break;
 
                     case "ativa":

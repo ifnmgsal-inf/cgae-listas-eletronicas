@@ -141,10 +141,10 @@ class Edit extends Page
         $content = parent::render("signature/edit/vai_volta", [
             "lista" => "vai_volta",
             "id" => $data->id,
-            "destino" => $data->destino,
-            "data" => $data->data,
-            "hora_saida" => $data->horaSaida,
-            "hora_chegada" => $data->horaChegada
+            "destino" => htmlspecialchars($data->destino),
+            "data" => htmlspecialchars($data->data),
+            "hora_saida" => htmlspecialchars($data->horaSaida),
+            "hora_chegada" => htmlspecialchars($data->horaChegada)
         ]);
 
         return $content;
@@ -160,11 +160,11 @@ class Edit extends Page
         $content = parent::render("signature/edit/saida", [
             "lista" => "saida",
             "id" => $data->id,
-            "destino" => $data->destino,
-            "data_saida" => $data->dataSaida,
-            "data_chegada" => $data->dataChegada,
-            "hora_saida" => $data->horaSaida,
-            "hora_chegada" => $data->horaChegada,
+            "destino" => htmlspecialchars($data->destino),
+            "data_saida" => htmlspecialchars($data->dataSaida),
+            "data_chegada" => htmlspecialchars($data->dataChegada),
+            "hora_saida" => htmlspecialchars($data->horaSaida),
+            "hora_chegada" => htmlspecialchars($data->horaChegada),
         ]);
         
         return $content;
@@ -180,13 +180,13 @@ class Edit extends Page
         $content = parent::render("signature/edit/pernoite", [
             "lista" => "pernoite",
             "id" => $data->id,
-            "endereco" => $data->endereco,
-            "nome_responsavel" => $data->nomeResponsavel,
-            "telefone" => $data->telefone,
-            "data_saida" => $data->dataSaida,
-            "data_chegada" => $data->dataChegada,
-            "hora_saida" => $data->horaSaida,
-            "hora_chegada" => $data->horaChegada
+            "endereco" => htmlspecialchars($data->endereco),
+            "nome_responsavel" => htmlspecialchars($data->nomeResponsavel),
+            "telefone" => htmlspecialchars($data->telefone),
+            "data_saida" => htmlspecialchars($data->dataSaida),
+            "data_chegada" => htmlspecialchars($data->dataChegada),
+            "hora_saida" => htmlspecialchars($data->horaSaida),
+            "hora_chegada" => htmlspecialchars($data->horaChegada)
         ]);
         
         return $content;

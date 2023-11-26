@@ -84,17 +84,17 @@ class Student extends Page
         {
             $content = parent::render("student/index", [
                 "status" => is_null($message) ? "" : "<hr>".($success ? Alert::getSuccess($message) : Alert::getError($message))."<hr>",
-                "nome" => $ob->nome,
-                "email" => $ob->email,
-                "refeitorio" => $ob->idRefeitorio,
-                "quarto" => str_split($ob->quarto, 1)[0]."-".str_split($ob->quarto, 1)[1],
-                "cama" => $ob->cama,
-                "serie" => $ob->serie."°",
-                "sexo" => ucfirst($ob->sexo),
+                "nome" => htmlspecialchars($ob->nome),
+                "email" => htmlspecialchars($ob->email),
+                "refeitorio" => htmlspecialchars($ob->idRefeitorio),
+                "quarto" => htmlspecialchars(str_split($ob->quarto, 1)[0]."-".str_split($ob->quarto, 1)[1]),
+                "cama" => htmlspecialchars($ob->cama),
+                "serie" => htmlspecialchars($ob->serie."°"),
+                "sexo" => htmlspecialchars(ucfirst($ob->sexo)),
                 "pernoite" => $ob->pernoite ? "Sim" : "Não",
-                "cidade" => $ob->cidade,
-                "nome_responsavel" => $ob->nomeResponsavel,
-                "telefone" => $ob->telefoneResponsavel,
+                "cidade" => htmlspecialchars($ob->cidade),
+                "nome_responsavel" => htmlspecialchars($ob->nomeResponsavel),
+                "telefone" => htmlspecialchars($ob->telefoneResponsavel),
                 "actions" => self::getActions($id)
             ]);
         }

@@ -25,12 +25,12 @@ class Profile extends Page
 
         // RENDERIZA A VIEW DA PÁGINA
         $content = parent::render("profile/index", [
-            "nome" => $ob->nome,
-            "email" => $ob->email,
-            "quarto" => $quarto,
-            "cama" => $ob->cama,
-            "serie" => $ob->serie."° ano",
-            "numero" => $ob->idRefeitorio,
+            "nome" => htmlspecialchars($ob->nome),
+            "email" => htmlspecialchars($ob->email),
+            "quarto" => htmlspecialchars($quarto),
+            "cama" => htmlspecialchars($ob->cama),
+            "serie" => htmlspecialchars($ob->serie."° ano"),
+            "numero" => htmlspecialchars($ob->idRefeitorio),
             "pernoite" => $ob->pernoite ? "Sim" : "Não"
         ]);
 
