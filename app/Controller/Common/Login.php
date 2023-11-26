@@ -85,6 +85,9 @@ class Login
             self::setCookies($postVars, $type);
         }
 
+        // SALVANDO O LOG DE LOGIN
+        \App\Utils\LogCreator::createLog();
+
         // REALIZA O REDIRECIONAMENTO
         switch ($type)
         {
